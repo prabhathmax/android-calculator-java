@@ -13,7 +13,8 @@ public class MainActivity extends AppCompatActivity {
     Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDel, btnEqual, btnDivide, btnMultiply, btnPlus, btnMinus, btnPercentage, btnPoint;
     EditText display;
     float mValOne, mValTwo;
-    boolean minus, divide, plus, multiply, percentage;
+    boolean minus, divide, plus, multiply, percentage, pointClicked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,14 +125,29 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                display.setText(display.getText() + ".");
+                if (!pointClicked) {
+                    display.setText(display.getText() + ".");
+                    pointClicked = true;
+                }
             }
         });
 
         btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                display.setText("");
+                String textString = display.getText().toString();
+                if( textString.length() > 0 ) {
+                    display.setText(textString.substring(0, textString.length() - 1 ));
+                    display.setSelection(display.getText().length());//position cursor at the end of the line
+                }
+                if(textString.length() == 1 | textString.length() == 0) {
+                    pointClicked = false;
+                    minus = false;
+                    divide = false;
+                    plus = false;
+                    multiply = false;
+                    percentage = false;
+                }
             }
         });
 
@@ -158,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mValOne = Float.parseFloat(display.getText() + "");
                     minus = true;
+                    pointClicked = false;
                     display.setText(null);
                 }
             }
@@ -172,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mValOne = Float.parseFloat(display.getText() + "");
                     divide = true;
+                    pointClicked = false;
                     display.setText(null);
                 }
             }
@@ -186,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mValOne = Float.parseFloat(display.getText() + "");
                     multiply = true;
+                    pointClicked = false;
                     display.setText(null);
                 }
             }
@@ -200,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mValOne = Float.parseFloat(display.getText() + "");
                     percentage = true;
+                    pointClicked = false;
                     display.setText(null);
                 }
             }
@@ -213,26 +233,31 @@ public class MainActivity extends AppCompatActivity {
                 if (plus == true) {
                     display.setText(mValOne + mValTwo + "");
                     plus = false;
+                    pointClicked = false;
                 }
 
                 if (minus == true) {
                     display.setText(mValOne - mValTwo + "");
                     minus = false;
+                    pointClicked = false;
                 }
 
                 if (multiply == true) {
                     display.setText(mValOne * mValTwo + "");
                     multiply = false;
+                    pointClicked = false;
                 }
 
                 if (divide == true) {
                     display.setText(mValOne / mValTwo + "");
                     divide = false;
+                    pointClicked = false;
                 }
 
                 if (percentage == true) {
                     display.setText((mValOne * mValTwo)/100 + "");
                     percentage = false;
+                    pointClicked = false;
                 }
             }
         });
