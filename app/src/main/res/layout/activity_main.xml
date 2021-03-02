@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:background="@color/black"
             android:textColor="@color/white"
-            android:text="@string/sample_text"
             android:textSize="30sp"/>
     </LinearLayout>
     <LinearLayout
